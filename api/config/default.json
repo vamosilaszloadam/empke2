@@ -1,0 +1,15 @@
+{
+    "app": {
+        "port": 8000,
+        "key": "f0b18bf4898dab7a9a13a055f1018ce7",
+        "log": "console.log"
+    },
+    "db": {
+        "dialect": "sqlite",
+        "host": "127.0.0.1",
+        "name": "",
+        "user": "",
+        "pass": "",
+        "path": "database.sqlite"
+    }
+}
