@@ -1,18 +1,27 @@
 const tbody = document.querySelector('#tbody')
+const saveButton = document.querySelector('#saveButton')
 
-//Read
+const idInput = document.querySelector('#id')
+const nameInput = document.querySelector('#name')
+const cityInput = document.querySelector('#city')
+const salaryInput = document.querySelector('#salary')
+
+
 const url = 'http://localhost:8000/api/employees'
 
-//Promise
+function getEmployees() {
+    fetch(url)
+    .then((response) => {
+        return response.json()
+    })
+    .then((result) => {
+        console.log(result)
+        renderTbody(result.data)
+    });
+}
 
-fetch(url)
-.then((response) => {
-    return response.json()
-})
-.then((result) => {
-    console.log(result)
-    renderTbody(result.data)
-});
+getEmployees()
+
 
 function renderTbody(empList) {
     var tbodyContent = '';
@@ -29,4 +38,50 @@ function renderTbody(empList) {
         console.log(emp.name)
     })
     tbody.innerHTML = tbodyContent
+}
+
+/* Create művelet */
+
+saveButton.addEventListener('click', () => {
+    console.log(idInput.value)
+    console.log(nameInput.value)
+    console.log(cityInput.value)
+    console.log(salaryInput.value)
+
+    //JavaScript objektum
+    const emp = {
+        name: nameInput.value,
+        city: cityInput.value,
+        salary: salaryInput.value
+    }
+
+    console.log(emp.name, emp.city, emp.salary)
+    console.log(emp)
+    addEmployee(emp)
+
+    clearFields()
+})
+
+function clearFields() {
+    idInput.value = ''
+    nameInput.value = ''
+    cityInput.value = ''
+    salaryInput.value = ''
+}
+
+function addEmployee(emp) {
+    // console.log(emp)
+    fetch(url, {
+        method: 'POST', 
+        body: JSON.stringify(emp),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+        getEmployees()
+    })
+    .catch(err => console.log(err))
 }
