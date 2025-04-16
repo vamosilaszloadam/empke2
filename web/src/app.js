@@ -38,7 +38,7 @@ function renderTbody(empList) {
                 <button class="btn btn-warning" onclick="deleteEmployee(${emp.id})">Törlés</button>
             </td>
             <td>
-                <button class="btn btn-secondary" onclick="updateEmployee(${emp})">Szerkesztés</button>
+                <button class="btn btn-secondary" onclick="updateEmployee()" data-id="${emp.id}" data-name="${emp.name}" data-city="${emp.city}" data-salary="${emp.salary}">Szerkesztés</button>
             </td>
         </tr>
         `;
@@ -105,6 +105,20 @@ function deleteEmployee(id) {
     console.log("id: " + id)
 }
 
-function updateEmployee(emp) {
-    console.log("emp: " + emp)
+function updateEmployee() {
+    // const id = this.event.target.getAttribute("data-id")
+    // const name = this.event.target.getAttribute("data-name")
+    // const city = this.event.target.getAttribute("data-city")
+    // const salary = this.event.target.getAttribute("data-salary")
+
+    // console.log(id + " " + name + " " + city + " " + salary)
+
+    const emp = {
+        id: this.event.target.getAttribute("data-id"),
+        name: this.event.target.getAttribute("data-name"),
+        city: this.event.target.getAttribute("data-city"),
+        salary: this.event.target.getAttribute("data-salary")
+    }
+
+    console.log(emp)
 }
