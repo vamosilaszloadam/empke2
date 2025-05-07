@@ -1,14 +1,17 @@
 const tbody = document.querySelector('#tbody')
 const saveButton = document.querySelector('#saveButton')
+const addButton = document.querySelector('#addButton')
 
 const idInput = document.querySelector('#id')
 const nameInput = document.querySelector('#name')
 const cityInput = document.querySelector('#city')
 const salaryInput = document.querySelector('#salary')
 
+const empModalLabel = document.querySelector('#empModalLabel')
 
 const url = 'http://localhost:8000/api/employees'
 
+var addMode = true;
 
 
 function getEmployees() {
@@ -38,7 +41,7 @@ function renderTbody(empList) {
                 <button class="btn btn-warning" onclick="deleteEmployee(${emp.id})">Törlés</button>
             </td>
             <td>
-                <button class="btn btn-secondary" onclick="updateEmployee()" data-id="${emp.id}" data-name="${emp.name}" data-city="${emp.city}" data-salary="${emp.salary}">Szerkesztés</button>
+                <button class="btn btn-secondary" onclick="editEmployee()" data-id="${emp.id}" data-name="${emp.name}" data-city="${emp.city}" data-salary="${emp.salary}" data-bs-toggle="modal" data-bs-target="#empModal">Szerkesztés</button>
             </td>
         </tr>
         `;
@@ -56,18 +59,30 @@ saveButton.addEventListener('click', () => {
     console.log(cityInput.value)
     console.log(salaryInput.value)
 
-    //JavaScript objektum
-    const emp = {
-        name: nameInput.value,
-        city: cityInput.value,
-        salary: salaryInput.value
+    if(addMode) {
+        const emp = {
+            name: nameInput.value,
+            city: cityInput.value,
+            salary: salaryInput.value
+        }
+        addEmployee(emp)
+    }else {
+        const emp = {
+            id: idInput.value,
+            name: nameInput.value,
+            city: cityInput.value,
+            salary: salaryInput.value
+        }
+        updateEmployee(emp)
     }
 
-    console.log(emp.name, emp.city, emp.salary)
-    console.log(emp)
-    addEmployee(emp)
-
     clearFields()
+})
+
+addButton.addEventListener('click', () => {
+    clearFields()
+    addMode = true
+    empModalLabel.innerHTML = 'Hozzáadás'
 })
 
 function clearFields() {
@@ -105,14 +120,10 @@ function deleteEmployee(id) {
     console.log("id: " + id)
 }
 
-function updateEmployee() {
-    // const id = this.event.target.getAttribute("data-id")
-    // const name = this.event.target.getAttribute("data-name")
-    // const city = this.event.target.getAttribute("data-city")
-    // const salary = this.event.target.getAttribute("data-salary")
+function editEmployee() {
+    addMode = false;
 
-    // console.log(id + " " + name + " " + city + " " + salary)
-
+    empModalLabel.innerHTML = 'Szerkesztés'
     const emp = {
         id: this.event.target.getAttribute("data-id"),
         name: this.event.target.getAttribute("data-name"),
@@ -120,5 +131,31 @@ function updateEmployee() {
         salary: this.event.target.getAttribute("data-salary")
     }
 
+    idInput.value = emp.id;
+    nameInput.value = emp.name;
+    cityInput.value = emp.city;
+    salaryInput.value = emp.salary;
+
     console.log(emp)
+}
+
+function updateEmployee(emp) {
+    const extUrl = url + '/' + emp.id;
+
+    fetch(extUrl, {
+        method: 'PUT', 
+        body: JSON.stringify(emp),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+        getEmployees()
+    })
+    .catch(err => console.log(err))
+
+    addMode = true;
+    empModalLabel.innerHTML = 'Hozzáadás'
 }
