@@ -9,49 +9,24 @@ const salaryInput = document.querySelector('#salary')
 
 const empModalLabel = document.querySelector('#empModalLabel')
 
-const url = 'http://localhost:8000/api/employees'
+// const doc = {
+//     tbody: document.querySelector('#tbody'),
+//     saveButton: document.querySelector('#saveButton'),
+//     addButton: document.querySelector('#addButton'),
+//     idInput: document.querySelector('#id'),
+//     nameInput: document.querySelector('#name'),
+//     cityInput: document.querySelector('#city'),
+//     salaryInput: document.querySelector('#salary'),
+//     empModalLabel: document.querySelector('#empModalLabel')
+// }
 
+const url = 'http://localhost:8000/api/employees'
 var addMode = true;
 
-
-function getEmployees() {
-    fetch(url)
-    .then((response) => {
-        return response.json()
-    })
-    .then((result) => {
-        console.log(result)
-        renderTbody(result.data)
-    });
-}
-
-getEmployees()
-
-
-function renderTbody(empList) {
-    var tbodyContent = '';
-    empList.forEach((emp) => {
-        var row = `
-        <tr>
-            <td>${emp.id}</td>
-            <td>${emp.name}</td>
-            <td>${emp.city}</td>
-            <td>${emp.salary}</td>
-            <td>
-                <button class="btn btn-warning" onclick="deleteEmployee(${emp.id})">Törlés</button>
-            </td>
-            <td>
-                <button class="btn btn-secondary" onclick="editEmployee()" data-id="${emp.id}" data-name="${emp.name}" data-city="${emp.city}" data-salary="${emp.salary}" data-bs-toggle="modal" data-bs-target="#empModal">Szerkesztés</button>
-            </td>
-        </tr>
-        `;
-        tbodyContent += row;
-        console.log(emp.name)
-    })
-    tbody.innerHTML = tbodyContent
-}
-
-/* Create művelet */
+// const state = {
+//     url: 'http://localhost:8000/api/employees',
+//     addMode: true
+// }
 
 saveButton.addEventListener('click', () => {
     console.log(idInput.value)
@@ -84,6 +59,40 @@ addButton.addEventListener('click', () => {
     addMode = true
     empModalLabel.innerHTML = 'Hozzáadás'
 })
+
+function getEmployees() {
+    fetch(url)
+    .then((response) => {
+        return response.json()
+    })
+    .then((result) => {
+        console.log(result)
+        renderTbody(result.data)
+    });
+}
+
+function renderTbody(empList) {
+    var tbodyContent = '';
+    empList.forEach((emp) => {
+        var row = `
+        <tr>
+            <td>${emp.id}</td>
+            <td>${emp.name}</td>
+            <td>${emp.city}</td>
+            <td>${emp.salary}</td>
+            <td>
+                <button class="btn btn-warning" onclick="deleteEmployee(${emp.id})">Törlés</button>
+            </td>
+            <td>
+                <button class="btn btn-secondary" onclick="editEmployee()" data-id="${emp.id}" data-name="${emp.name}" data-city="${emp.city}" data-salary="${emp.salary}" data-bs-toggle="modal" data-bs-target="#empModal">Szerkesztés</button>
+            </td>
+        </tr>
+        `;
+        tbodyContent += row;
+        console.log(emp.name)
+    })
+    tbody.innerHTML = tbodyContent
+}
 
 function clearFields() {
     idInput.value = ''
@@ -159,3 +168,5 @@ function updateEmployee(emp) {
     addMode = true;
     empModalLabel.innerHTML = 'Hozzáadás'
 }
+
+getEmployees()
