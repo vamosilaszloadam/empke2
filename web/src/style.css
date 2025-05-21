@@ -1,8 +1,8 @@
 @media screen and (max-width: 500px) {
-    td {
+    table, thead, tbody, tr, th, td {
         display: block;
     }
-    th {
+    thead tr {
         display: none;
     }
     .miniId::before { content: "id "; }

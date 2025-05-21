@@ -84,11 +84,11 @@ function renderTbody(empList) {
             <td class="mini miniCity">${emp.city}</td>
             <td class="mini miniSalary">${emp.salary}</td>
             <td class="mini">
-                <button class="btn btn-warning me-3" onclick="askDeleteEmployee(${emp.id})">Törlés</button>
+                <button class="btn btn-warning me-3 my-1" onclick="askDeleteEmployee(${emp.id})">Törlés</button>
                 <button class="btn btn-secondary" onclick="editEmployee()" data-id="${emp.id}" data-name="${emp.name}" data-city="${emp.city}" data-salary="${emp.salary}" data-bs-toggle="modal" data-bs-target="#empModal">Szerkesztés</button>
             </td>
             <!--<td class="mini">
-                <button class="btn btn-secondary" onclick="editEmployee()" data-id="${emp.id}" data-name="${emp.name}" data-city="${emp.city}" data-salary="${emp.salary}" data-bs-toggle="modal" data-bs-target="#empModal">Szerkesztés</button>
+                <button class="btn btn-secondary my-1" onclick="editEmployee()" data-id="${emp.id}" data-name="${emp.name}" data-city="${emp.city}" data-salary="${emp.salary}" data-bs-toggle="modal" data-bs-target="#empModal">Szerkesztés</button>
             </td>-->
         </tr>
         `;
