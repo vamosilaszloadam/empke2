@@ -6,6 +6,7 @@ const idInput = document.querySelector('#id')
 const nameInput = document.querySelector('#name')
 const cityInput = document.querySelector('#city')
 const salaryInput = document.querySelector('#salary')
+const deleteModal = document.querySelector('#deleteModal')
 
 const empModalLabel = document.querySelector('#empModalLabel')
 
@@ -21,6 +22,8 @@ const empModalLabel = document.querySelector('#empModalLabel')
 // }
 
 const url = 'http://localhost:8000/api/employees'
+var idForDelete = -1;
+
 var addMode = true;
 
 // const state = {
@@ -81,7 +84,7 @@ function renderTbody(empList) {
             <td class="mini miniCity">${emp.city}</td>
             <td class="mini miniSalary">${emp.salary}</td>
             <td class="mini">
-                <button class="btn btn-warning me-3" onclick="deleteEmployee(${emp.id})">Törlés</button>
+                <button class="btn btn-warning me-3" onclick="askDeleteEmployee(${emp.id})">Törlés</button>
                 <button class="btn btn-secondary" onclick="editEmployee()" data-id="${emp.id}" data-name="${emp.name}" data-city="${emp.city}" data-salary="${emp.salary}" data-bs-toggle="modal" data-bs-target="#empModal">Szerkesztés</button>
             </td>
             <!--<td class="mini">
@@ -119,8 +122,16 @@ function addEmployee(emp) {
     .catch(err => console.log(err))
 }
 
-function deleteEmployee(id) {
-    const delUrl = url + '/' + id;
+function askDeleteEmployee(id) {
+
+    const modal = new bootstrap.Modal(deleteModal);
+    modal.show();
+    idForDelete = id
+}
+
+function deleteEmployee() {
+    console.log(idForDelete)
+    const delUrl = url + '/' + idForDelete;
     fetch(delUrl, { method: "DELETE"} )
     .then(response => response.json() )
     .then(result => {
